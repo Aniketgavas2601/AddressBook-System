@@ -159,6 +159,7 @@ public class AddressBook {
             ans = sc.nextInt();
         } while (ans == 1);
     }
+    //
     // UC6: Refactor the code
     public void menuOption(AddressBook addressBook, ArrayList<Contacts> contacts){
 
