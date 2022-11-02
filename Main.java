@@ -28,7 +28,7 @@ public class Main {
                     addressBook.deleteContactDetails();
                     break;
 
-                case 2:
+                case 5:
                     addressBook.show();
                     break;
 
