@@ -24,6 +24,10 @@ public class Main {
                     addressBook.updateDetails();
                     break;
 
+                case 4:
+                    addressBook.deleteContactDetails();
+                    break;
+
                 case 2:
                     addressBook.show();
                     break;

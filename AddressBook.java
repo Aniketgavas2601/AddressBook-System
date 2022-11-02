@@ -112,4 +112,28 @@ public class AddressBook {
         }
     }
 
+    // UC4: Delete a Contact Details From AddressBook Using First Name And Last Name
+    public void deleteContactDetails(){
+        if (contactDetails.size() == 0){
+            System.out.println("No Record Found");
+        }else{
+            System.out.println("Enter First Name And Last Name to Delete contact");
+            System.out.println("Enter First Name: ");
+            String first_Name = sc.next();
+            System.out.println("Enter Last Name: ");
+            String last_Name = sc.next();
+
+            for (int i=0; i < contactDetails.size(); i++){
+                Contacts contacts = contactDetails.get(i);
+                if (contacts.getFirstName().equals(first_Name) && contacts.getLastName().equals(last_Name)){
+                    contactDetails.remove(i);
+                    System.out.println();
+                    System.out.println("Contact Deleted Successfully.");
+                }else{
+                    System.out.println("Data Is Not Exist");
+                }
+            }
+        }
+    }
+
 }
