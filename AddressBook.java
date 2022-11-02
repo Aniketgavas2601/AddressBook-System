@@ -1,15 +1,17 @@
 package com.bridgelabz.addressbook;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class AddressBook {
     ArrayList<Contacts> contactDetails = new ArrayList<>();
 
     Scanner sc = new Scanner(System.in);
+    HashMap<String, ArrayList<Contacts>> hashMap = new HashMap<>();
 
     // UC2: Add Contact Details
-    public void addUserDetails(){
+    public void addUserDetails() {
         Contacts userData = new Contacts();
         System.out.println("Enter First Name: ");
         userData.setFirstName(sc.next());
@@ -29,6 +31,7 @@ public class AddressBook {
         userData.setEmail(sc.next());
         contactDetails.add(userData);
     }
+
     public void show() {
         if (contactDetails.size() == 0) {
             System.out.println("No Data Found");
@@ -40,14 +43,14 @@ public class AddressBook {
     }
 
     // UC3: Update The Details In Existing Records
-    public void updateDetails(){
+    public void updateDetails() {
         System.out.println("Enter First And Last Name to Edit Details");
         System.out.println("Enter First Name: ");
         String first_Name = sc.next();
         System.out.println("Enter Last Name: ");
         String last_Name = sc.next();
-        for(int i=0 ; i < contactDetails.size(); i++) {
-            Contacts contacts =  contactDetails.get(i);
+        for (int i = 0; i < contactDetails.size(); i++) {
+            Contacts contacts = contactDetails.get(i);
             if (contacts.getFirstName().equals(first_Name) && contacts.getLastName().equals(last_Name)) {
                 System.out.println("You can Update The Details");
                 System.out.println("please Enter Your Choice:  ");
@@ -113,27 +116,80 @@ public class AddressBook {
     }
 
     // UC4: Delete a Contact Details From AddressBook Using First Name And Last Name
-    public void deleteContactDetails(){
-        if (contactDetails.size() == 0){
+    public void deleteContactDetails() {
+        if (contactDetails.size() == 0) {
             System.out.println("No Record Found");
-        }else{
+        } else {
             System.out.println("Enter First Name And Last Name to Delete contact");
             System.out.println("Enter First Name: ");
             String first_Name = sc.next();
             System.out.println("Enter Last Name: ");
             String last_Name = sc.next();
 
-            for (int i=0; i < contactDetails.size(); i++){
+            for (int i = 0; i < contactDetails.size(); i++) {
                 Contacts contacts = contactDetails.get(i);
-                if (contacts.getFirstName().equals(first_Name) && contacts.getLastName().equals(last_Name)){
+                if (contacts.getFirstName().equals(first_Name) && contacts.getLastName().equals(last_Name)) {
                     contactDetails.remove(i);
                     System.out.println();
                     System.out.println("Contact Deleted Successfully.");
-                }else{
+                } else {
                     System.out.println("Data Is Not Exist");
                 }
             }
         }
     }
+    // UC5: Method To Add Multiple Person to Address Book
+    public void addMultipleAddressBook(){
+        AddressBook addressBook = new AddressBook();
+        int ans;
+        do {
+            System.out.print("Enter Name for Address Book: ");
+            String addressBookName = sc.next();
 
+            if (hashMap.containsKey(addressBookName)) {
+                System.out.println("The Address Book is already exist...\nPlease Rename Address Book.");
+            } else {
+                ArrayList<Contacts> contacts = new ArrayList<>();
+                addressBook.menuOption(addressBook, contacts);
+                hashMap.put(addressBookName, contacts);
+            }
+            System.out.println("AddressBook Added... \n" +hashMap+ " " + "\n");
+            System.out.println("If you want to add another address book Press 1");
+            System.out.println("For exit press 0 ");
+            ans = sc.nextInt();
+        } while (ans == 1);
+    }
+    // UC6: Refactor the code
+    public void menuOption(AddressBook addressBook, ArrayList<Contacts> contacts){
+
+        while (true) {
+            System.out.println("""
+                    1 -> Add Contact\s
+                    2 -> Show Contact\s\s
+                    3 -> Update Contact\s""");
+            System.out.println("please Enter Your Choice: ");
+            int choice = sc.nextInt();
+
+            switch (choice) {
+                case 1:
+                    addressBook.addUserDetails();
+                    break;
+
+                case 3:
+                    addressBook.updateDetails();
+                    break;
+
+                case 4:
+                    addressBook.deleteContactDetails();
+                    break;
+
+                case 5:
+                    addressBook.show();
+                    break;
+
+                default:
+                    System.out.println("Invalid Choice");
+            }
+        }
+    }
 }
