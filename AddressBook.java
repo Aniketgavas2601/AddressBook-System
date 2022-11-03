@@ -246,7 +246,6 @@ public class AddressBook {
 
 
     private void searchPersonUsingCityOrState(ArrayList<Contacts> contactDetails){
-        int count = 0;
         System.out.println("Enter City Name: ");
         String city = sc.next();
 
@@ -257,5 +256,8 @@ public class AddressBook {
                 .collect(Collectors.toList())
                 .forEach(contacts -> System.out.println("\n Contacts Found \n"+contacts));
 
+        // UC10: Ability to get number of contact persons i.e. count by City or State
+        long count = contactDetails.stream().filter(contacts -> contacts.getCity().equalsIgnoreCase(city) && contacts.getState().equalsIgnoreCase(state)).count();
+        System.out.println("\n" +count+ " Persons Found in City " +city+ " and " +state+ ". \n");
     }
 }
