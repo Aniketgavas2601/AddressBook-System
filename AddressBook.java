@@ -5,34 +5,123 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class AddressBook {
-    ArrayList<Contacts> contactDetails = new ArrayList<>();
+    //static ArrayList<Contacts> contactDetails= new ArrayList<>();
+    Contacts userData = new Contacts();
 
-    Scanner sc = new Scanner(System.in);
+    static Scanner sc = new Scanner(System.in);
     HashMap<String, ArrayList<Contacts>> hashMap = new HashMap<>();
 
-    // UC2: Add Contact Details
-    public void addUserDetails() {
-        Contacts userData = new Contacts();
-        System.out.println("Enter First Name: ");
-        userData.setFirstName(sc.next());
-        System.out.println("Enter Last Name: ");
-        userData.setLastName(sc.next());
-        System.out.println("Enter Your Address: ");
-        userData.setAddress(sc.next());
-        System.out.println("Enter Your City: ");
-        userData.setCity(sc.next());
-        System.out.println("Enter Your State: ");
-        userData.setState(sc.next());
-        System.out.println("Enter a Zipcode: ");
-        userData.setZip(sc.nextInt());
-        System.out.println("Enter a Phone Number: ");
-        userData.setPhoneNumber(sc.nextInt());
-        System.out.println("Enter Email: ");
-        userData.setEmail(sc.next());
-        contactDetails.add(userData);
+    //UC5: add Multiple AddressBook
+    public void addMultipleAddressBook(AddressBook addressBook) {
+        int ans;
+        do {
+            System.out.print("Enter Name for Address Book: ");
+            String addressBookName = sc.next();
+
+            if (hashMap.containsKey(addressBookName)) {
+                System.out.println("The Address Book is already exist...\nPlease Rename Address Book.");
+            } else {
+                ArrayList<Contacts> contacts = new ArrayList<>();
+                addressBook.menuOption(addressBook, contacts);
+                hashMap.put(addressBookName, contacts);
+            }
+            System.out.println("AddressBook Added... \n" + hashMap + " " + "\n");
+            System.out.println("If you want to add another address book Press 1");
+            System.out.println("For exit press 0 ");
+
+            ans = sc.nextInt();
+        } while (ans == 1);
     }
 
-    public void show() {
+    //
+    // UC6: Refactor the code
+    public void menuOption(AddressBook addressBook, ArrayList<Contacts> contacts) {
+
+        while (true) {
+            System.out.println("""
+                    1 -> Add Contact\s
+                    2 -> Show Contact\s
+                    3 -> Update Contact\s
+                    4 -> Exit """);
+            System.out.println("please Enter Your Choice: ");
+            int choice = sc.nextInt();
+
+            switch (choice) {
+                case 1:
+                    addressBook.addUserDetails(contacts);
+                    break;
+
+                case 2:
+                    addressBook.show(contacts);
+                    break;
+
+                case 3:
+                    addressBook.updateDetails(contacts);
+                    break;
+
+                case 4:
+                    return;
+
+                default:
+                    System.out.println("Invalid Choice");
+            }
+        }
+    }
+
+    // UC2: Add Contact Details
+    public void addUserDetails(ArrayList<Contacts> contactDetails) {
+
+        if (contactDetails.size() == 0) {
+            System.out.println("Enter First Name: ");
+            userData.setFirstName(sc.next());
+            System.out.println("Enter Last Name: ");
+            userData.setLastName(sc.next());
+            System.out.println("Enter Your Address: ");
+            userData.setAddress(sc.next());
+            System.out.println("Enter Your City: ");
+            userData.setCity(sc.next());
+            System.out.println("Enter Your State: ");
+            userData.setState(sc.next());
+            System.out.println("Enter a Zipcode: ");
+            userData.setZip(sc.nextInt());
+            System.out.println("Enter a Phone Number: ");
+            userData.setPhoneNumber(sc.nextInt());
+            System.out.println("Enter Email: ");
+            userData.setEmail(sc.next());
+            System.out.println("Data Added Successfully");
+        } else {
+            System.out.println("Enter First Name:");
+            String first_name = sc.next();
+            for (int i = 0; i < contactDetails.size(); i++) {
+                Contacts details = contactDetails.get(i);
+
+                // UC7: Checking For Duplicate Name
+
+                if (first_name.equals(details.getFirstName())) {
+                    System.out.println("Your Name Already Found in AddressBook");
+                } else {
+                    Contacts contacts = new Contacts();
+                    System.out.println("Enter Last Name: ");
+                    userData.setLastName(sc.next());
+                    System.out.println("Enter Your Address: ");
+                    userData.setAddress(sc.next());
+                    System.out.println("Enter Your City: ");
+                    userData.setCity(sc.next());
+                    System.out.println("Enter Your State: ");
+                    userData.setState(sc.next());
+                    System.out.println("Enter a Zipcode: ");
+                    userData.setZip(sc.nextInt());
+                    System.out.println("Enter a Phone Number: ");
+                    userData.setPhoneNumber(sc.nextInt());
+                    System.out.println("Enter Email: ");
+                    userData.setEmail(sc.next());
+                    System.out.println("Data Added SuccessFully");
+                }
+            }
+        }
+    }
+
+    public void show(ArrayList<Contacts> contactDetails) {
         if (contactDetails.size() == 0) {
             System.out.println("No Data Found");
         } else {
@@ -43,7 +132,7 @@ public class AddressBook {
     }
 
     // UC3: Update The Details In Existing Records
-    public void updateDetails() {
+    public void updateDetails(ArrayList<Contacts> contactDetails) {
         System.out.println("Enter First And Last Name to Edit Details");
         System.out.println("Enter First Name: ");
         String first_Name = sc.next();
@@ -116,7 +205,7 @@ public class AddressBook {
     }
 
     // UC4: Delete a Contact Details From AddressBook Using First Name And Last Name
-    public void deleteContactDetails() {
+    public void deleteContactDetails(ArrayList<Contacts> contactDetails) {
         if (contactDetails.size() == 0) {
             System.out.println("No Record Found");
         } else {
@@ -135,61 +224,6 @@ public class AddressBook {
                 } else {
                     System.out.println("Data Is Not Exist");
                 }
-            }
-        }
-    }
-    // UC5: Method To Add Multiple Person to Address Book
-    public void addMultipleAddressBook(){
-        AddressBook addressBook = new AddressBook();
-        int ans;
-        do {
-            System.out.print("Enter Name for Address Book: ");
-            String addressBookName = sc.next();
-
-            if (hashMap.containsKey(addressBookName)) {
-                System.out.println("The Address Book is already exist...\nPlease Rename Address Book.");
-            } else {
-                ArrayList<Contacts> contacts = new ArrayList<>();
-                addressBook.menuOption(addressBook, contacts);
-                hashMap.put(addressBookName, contacts);
-            }
-            System.out.println("AddressBook Added... \n" +hashMap+ " " + "\n");
-            System.out.println("If you want to add another address book Press 1");
-            System.out.println("For exit press 0 ");
-            ans = sc.nextInt();
-        } while (ans == 1);
-    }
-    //
-    // UC6: Refactor the code
-    public void menuOption(AddressBook addressBook, ArrayList<Contacts> contacts){
-
-        while (true) {
-            System.out.println("""
-                    1 -> Add Contact\s
-                    2 -> Show Contact\s\s
-                    3 -> Update Contact\s""");
-            System.out.println("please Enter Your Choice: ");
-            int choice = sc.nextInt();
-
-            switch (choice) {
-                case 1:
-                    addressBook.addUserDetails();
-                    break;
-
-                case 3:
-                    addressBook.updateDetails();
-                    break;
-
-                case 4:
-                    addressBook.deleteContactDetails();
-                    break;
-
-                case 5:
-                    addressBook.show();
-                    break;
-
-                default:
-                    System.out.println("Invalid Choice");
             }
         }
     }

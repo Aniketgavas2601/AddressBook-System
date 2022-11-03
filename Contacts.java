@@ -83,14 +83,13 @@ public class Contacts {
 
         this.email = email;
     }
-    ///
     //toString Method
     @Override
     public String toString() {
-       return ">>>>>>>>>>>>[ Contact Details ]<<<<<<<<<<<< "+
+       return "\n>>>>>>>>>>>>[ Contact Details ]<<<<<<<<<<<< "+
                "\n --------------------------------------------"+
                "\n First Name: "+firstName+
-               "\n LAst Name: "+lastName+
+               "\n Last Name: "+lastName+
                "\n Address: "+address+"" +
                "\n City: "+city+
                "\n State: "+state+
