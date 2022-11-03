@@ -3,6 +3,7 @@ package com.bridgelabz.addressbook;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class AddressBook {
     //static ArrayList<Contacts> contactDetails= new ArrayList<>();
@@ -21,9 +22,9 @@ public class AddressBook {
             if (hashMap.containsKey(addressBookName)) {
                 System.out.println("The Address Book is already exist...\nPlease Rename Address Book.");
             } else {
-                ArrayList<Contacts> contacts = new ArrayList<>();
-                addressBook.menuOption(addressBook, contacts);
-                hashMap.put(addressBookName, contacts);
+                ArrayList<Contacts> contactDetails = new ArrayList<>();
+                addressBook.menuOption(addressBook, contactDetails);
+                hashMap.put(addressBookName, contactDetails);
             }
             System.out.println("AddressBook Added... \n" + hashMap + " " + "\n");
             System.out.println("If you want to add another address book Press 1");
@@ -35,31 +36,42 @@ public class AddressBook {
 
     //
     // UC6: Refactor the code
-    public void menuOption(AddressBook addressBook, ArrayList<Contacts> contacts) {
+    public void menuOption(AddressBook addressBook, ArrayList<Contacts> contactDetails) {
 
         while (true) {
             System.out.println("""
                     1 -> Add Contact\s
-                    2 -> Show Contact\s
-                    3 -> Update Contact\s
-                    4 -> Exit """);
+                    2 -> Update Contacts\s
+                    3 -> Delete Contact\s
+                    4 -> Search Person Details Using City or State Name\s
+                    5 -> Show Contacts\s
+                    6 -> Exit""");
             System.out.println("please Enter Your Choice: ");
             int choice = sc.nextInt();
 
             switch (choice) {
                 case 1:
-                    addressBook.addUserDetails(contacts);
+                    addressBook.addUserDetails(contactDetails);
                     break;
 
                 case 2:
-                    addressBook.show(contacts);
+                    addressBook.updateDetails(contactDetails);
                     break;
 
                 case 3:
-                    addressBook.updateDetails(contacts);
+                    addressBook.deleteContactDetails(contactDetails);
                     break;
 
                 case 4:
+                    addressBook.searchPersonUsingCityOrState(contactDetails);
+                    break;
+
+                case 5:
+                    addressBook.show(contactDetails);
+                    break;
+
+                case 6:
+                    System.out.println("Exit");
                     return;
 
                 default:
@@ -88,6 +100,7 @@ public class AddressBook {
             userData.setPhoneNumber(sc.nextInt());
             System.out.println("Enter Email: ");
             userData.setEmail(sc.next());
+            contactDetails.add(userData);
             System.out.println("Data Added Successfully");
         } else {
             System.out.println("Enter First Name:");
@@ -115,8 +128,9 @@ public class AddressBook {
                     userData.setPhoneNumber(sc.nextInt());
                     System.out.println("Enter Email: ");
                     userData.setEmail(sc.next());
+                    contactDetails.add(userData);
                     System.out.println("Data Added SuccessFully");
-                }
+                } return;
             }
         }
     }
@@ -226,5 +240,22 @@ public class AddressBook {
                 }
             }
         }
+    }
+
+    // UC8: Find Person In Multiple AddressBook By City Or State
+
+
+    private void searchPersonUsingCityOrState(ArrayList<Contacts> contactDetails){
+        int count = 0;
+        System.out.println("Enter City Name: ");
+        String city = sc.next();
+
+        System.out.println("Enter State Name: ");
+        String state = sc.next();
+
+        contactDetails.stream().filter(contacts -> contacts.getCity().equalsIgnoreCase(city) && contacts.getState().equalsIgnoreCase(state))
+                .collect(Collectors.toList())
+                .forEach(contacts -> System.out.println("\n Contacts Found \n"+contacts));
+
     }
 }

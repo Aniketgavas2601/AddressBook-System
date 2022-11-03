@@ -1,6 +1,7 @@
 package com.bridgelabz.addressbook;
 
 public class Contacts {
+
     private String firstName;
     private String lastName;
     private String address;
@@ -87,7 +88,7 @@ public class Contacts {
     @Override
     public String toString() {
        return "\n>>>>>>>>>>>>[ Contact Details ]<<<<<<<<<<<< "+
-               "\n --------------------------------------------"+
+               "\n ----------------------------------------------"+
                "\n First Name: "+firstName+
                "\n Last Name: "+lastName+
                "\n Address: "+address+"" +
@@ -96,7 +97,8 @@ public class Contacts {
                "\n Zipcode: "+zip+"" +
                "\n Phone Number: "+phoneNumber+"" +
                "\n Email: "+email+
-               "\n --------------------------------------------";
+               "\n ----------------------------------------------";
+
     }
 
 }
