@@ -1,6 +1,7 @@
 package com.bridgelabz.addressbook;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -67,10 +68,13 @@ public class AddressBook {
                     break;
 
                 case 5:
+                    addressBook.sortContactByName(contactDetails);
+
+                case 6:
                     addressBook.show(contactDetails);
                     break;
 
-                case 6:
+                case 7:
                     System.out.println("Exit");
                     return;
 
@@ -260,4 +264,11 @@ public class AddressBook {
         long count = contactDetails.stream().filter(contacts -> contacts.getCity().equalsIgnoreCase(city) && contacts.getState().equalsIgnoreCase(state)).count();
         System.out.println("\n" +count+ " Persons Found in City " +city+ " and " +state+ ". \n");
     }
+    //UC11 = Ability to sort the entries in the address book alphabetically by Person’s name
+    public void sortContactByName(ArrayList<Contacts> contactDetails) {
+        contactDetails.stream().sorted(Comparator.comparing(Contacts::getFirstName))
+                .collect(Collectors.toList())
+                .forEach(System.out::println);
+    }
+
 }
